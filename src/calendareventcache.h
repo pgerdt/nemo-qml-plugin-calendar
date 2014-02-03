@@ -36,6 +36,7 @@
 // Qt
 #include <QSet>
 #include <QObject>
+#include <QFutureWatcher>
 
 // mkcal
 #include <event.h>
@@ -52,7 +53,7 @@ private:
 
 public:
     static NemoCalendarEventCache *instance();
-    void load();
+
 
     /* mKCal::ExtendedStorageObserver */
     void storageModified(mKCal::ExtendedStorage *storage, const QString &info);
@@ -63,6 +64,12 @@ public:
     void setNotebookColor(const QString &, const QString &);
 
     static QList<NemoCalendarEvent *> events(const KCalCore::Event::Ptr &event);
+
+    void init();
+    void update();
+
+public slots:
+    void handleFinished();
 
 protected:
     virtual bool event(QEvent *);
@@ -79,6 +86,7 @@ private:
     void scheduleAgendaRefresh(NemoCalendarAgendaModel *);
     void cancelAgendaRefresh(NemoCalendarAgendaModel *);
     void doAgendaRefresh();
+    void load();
 
     QStringList mDefaultNotebookColors;
 
@@ -89,6 +97,8 @@ private:
 
     bool mRefreshEventSent;
     QSet<NemoCalendarAgendaModel *> mRefreshModels;
+    QFutureWatcher<void>* mFutureWatcher;
+    bool mInitComplete;
 };
 
 #endif // CALENDAREVENTCACHE_H

@@ -34,6 +34,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QCoreApplication>
+#include <QtConcurrentRun>
 
 // mkcal
 #include <event.h>
@@ -47,10 +48,40 @@ NemoCalendarEventCache::NemoCalendarEventCache()
     : QObject(0)
     , mKCal::ExtendedStorageObserver()
     , mRefreshEventSent(false)
+    , mFutureWatcher(0)
+    , mInitComplete(false)
+{
+}
+
+void NemoCalendarEventCache::init()
 {
     NemoCalendarDb::storage()->registerObserver(this);
+    if (!mFutureWatcher) {
+        QFuture<void> future = QtConcurrent::run(this, &NemoCalendarEventCache::load);
+        mFutureWatcher = new QFutureWatcher<void>(this);
+        connect(mFutureWatcher, SIGNAL(finished()), this, SLOT(handleFinished()));
+        mFutureWatcher->setFuture(future);
+    }
+}
 
-    load();
+void NemoCalendarEventCache::update()
+{
+    if (!mInitComplete)
+        return;
+
+    if (mFutureWatcher) {
+        if (mFutureWatcher->isRunning())
+            mFutureWatcher->cancel();
+
+        QFuture<void> future = QtConcurrent::run(this, &NemoCalendarEventCache::load);
+        mFutureWatcher->setFuture(future);
+    }
+}
+
+void NemoCalendarEventCache::handleFinished()
+{
+    mInitComplete = true;
+    QCoreApplication::postEvent(this, new QEvent(QEvent::User));
 }
 
 void NemoCalendarEventCache::load()
@@ -60,7 +91,6 @@ void NemoCalendarEventCache::load()
     mKCal::Notebook::List notebooks = NemoCalendarDb::storage()->notebooks();
     mNotebooks.clear();
     mNotebookColors.clear();
-
     QStringList defaultNotebookColors = QStringList() << "#00aeef" << "red" << "blue" << "green" << "pink" << "yellow";
     int nextDefaultNotebookColor = 0;
 
@@ -137,7 +167,7 @@ void NemoCalendarEventCache::storageModified(mKCal::ExtendedStorage *storage, co
     //
     // for now, let's just ask models to reload whenever a change happens.
 
-    load();
+    update();
 }
 
 void NemoCalendarEventCache::storageProgress(mKCal::ExtendedStorage *storage, const QString &info)
@@ -196,6 +226,8 @@ bool NemoCalendarEventCache::event(QEvent *e)
 void NemoCalendarEventCache::scheduleAgendaRefresh(NemoCalendarAgendaModel *m)
 {
     mRefreshModels.insert(m);
+    if (!mInitComplete)
+        return;
     if (!mRefreshEventSent) {
         QCoreApplication::postEvent(this, new QEvent(QEvent::User));
         mRefreshEventSent = true;

@@ -108,10 +108,20 @@ void NemoCalendarApi::setExcludedNotebooks(const QStringList &list)
     }
 
     emit excludedNotebooksChanged();
-    NemoCalendarEventCache::instance()->load();
+    NemoCalendarEventCache::instance()->update();
 }
 
 QObject *NemoCalendarApi::New(QQmlEngine *e, QJSEngine *)
 {
     return new NemoCalendarApi(e);
+}
+
+void NemoCalendarApi::init()
+{
+    NemoCalendarEventCache::instance()->init();
+}
+
+void NemoCalendarApi::update()
+{
+    NemoCalendarEventCache::instance()->update();
 }

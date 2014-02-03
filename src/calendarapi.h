@@ -51,6 +51,8 @@ public:
     Q_INVOKABLE NemoCalendarEvent *createEvent();
     Q_INVOKABLE void remove(const QString &);
     Q_INVOKABLE void remove(const QString &, const QDateTime &);
+    Q_INVOKABLE void init();
+    Q_INVOKABLE void update();
 
     QStringList excludedNotebooks() const;
     void setExcludedNotebooks(const QStringList &);
