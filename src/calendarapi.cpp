@@ -125,3 +125,13 @@ void NemoCalendarApi::update()
 {
     NemoCalendarEventCache::instance()->update();
 }
+
+void NemoCalendarApi::setEndDate(const QDate &date)
+{
+    NemoCalendarEventCache::instance()->setEndDate(date);
+}
+
+void NemoCalendarApi::setStartDate(const QDate &date)
+{
+    NemoCalendarEventCache::instance()->setStartDate(date);
+}

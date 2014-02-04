@@ -51,6 +51,8 @@ public:
 public slots:
     int daysTo(const QDate &, const QDate &);
     QDate addDays(const QDate &, int);
+    QDate createDate(int y, int m, int d);
+    int daysInMonth(const QDate &);
 
     static QObject *New(QQmlEngine *e, QJSEngine *);
 };
@@ -68,6 +70,15 @@ int QtDate::daysTo(const QDate &from, const QDate &to)
 QDate QtDate::addDays(const QDate &date, int days)
 {
     return date.addDays(days);
+}
+QDate QtDate::createDate(int y, int m, int d)
+{
+    return QDate(y, m, d);
+}
+
+int QtDate::daysInMonth(const QDate &date)
+{
+    return date.daysInMonth();
 }
 
 QObject *QtDate::New(QQmlEngine *e, QJSEngine *)

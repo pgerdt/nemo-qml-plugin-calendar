@@ -53,6 +53,8 @@ public:
     Q_INVOKABLE void remove(const QString &, const QDateTime &);
     Q_INVOKABLE void init();
     Q_INVOKABLE void update();
+    Q_INVOKABLE void setStartDate(const QDate &date);
+    Q_INVOKABLE void setEndDate(const QDate &date);
 
     QStringList excludedNotebooks() const;
     void setExcludedNotebooks(const QStringList &);

@@ -67,6 +67,8 @@ public:
 
     void init();
     void update();
+    void setStartDate(const QDate &date);
+    void setEndDate(const QDate &date);
 
 public slots:
     void handleFinished();
@@ -99,6 +101,8 @@ private:
     QSet<NemoCalendarAgendaModel *> mRefreshModels;
     QFutureWatcher<void>* mFutureWatcher;
     bool mInitComplete;
+    QDate mStartDate;
+    QDate mEndDate;
 };
 
 #endif // CALENDAREVENTCACHE_H

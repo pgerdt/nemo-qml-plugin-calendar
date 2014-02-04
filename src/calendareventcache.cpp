@@ -78,6 +78,22 @@ void NemoCalendarEventCache::update()
     }
 }
 
+void NemoCalendarEventCache::setStartDate(const QDate &date)
+{
+    if (!mStartDate.isValid() || mStartDate > date) {
+        mStartDate = date;
+        if (!mEndDate.isValid()) {
+            mEndDate = date;
+        }
+    }
+}
+
+void NemoCalendarEventCache::setEndDate(const QDate &date)
+{
+    if (!mEndDate.isValid() || mEndDate < date)
+        mEndDate = date;
+}
+
 void NemoCalendarEventCache::handleFinished()
 {
     mInitComplete = true;
@@ -96,10 +112,8 @@ void NemoCalendarEventCache::load()
 
     for (int ii = 0; ii < notebooks.count(); ++ii) {
         QString uid = notebooks.at(ii)->uid();
-        if (!settings.value("exclude/" + uid, false).toBool()) {
+        if (!settings.value("exclude/" + uid, false).toBool())
             mNotebooks.insert(uid);
-            NemoCalendarDb::storage()->loadNotebookIncidences(uid);
-        }
 
         QString color = settings.value("colors/" + uid, QString()).toString();
         if (color.isEmpty())
@@ -109,6 +123,9 @@ void NemoCalendarEventCache::load()
 
         mNotebookColors.insert(uid, color);
     }
+
+    // Todo: check return value, no need to proceed if no new events are loaded.
+    NemoCalendarDb::storage()->load(mStartDate, mEndDate);
 
     mKCal::ExtendedCalendar::Ptr calendar = NemoCalendarDb::calendar();
 
