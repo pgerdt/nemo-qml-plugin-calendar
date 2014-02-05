@@ -69,6 +69,7 @@ public:
     void update();
     void setStartDate(const QDate &date);
     void setEndDate(const QDate &date);
+    int eventCountForDate(const QDate &date);
 
 public slots:
     void handleFinished();

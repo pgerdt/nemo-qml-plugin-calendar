@@ -333,3 +333,9 @@ void NemoCalendarEventCache::doAgendaRefresh()
     }
 }
 
+int NemoCalendarEventCache::eventCountForDate(const QDate &date)
+{
+    mKCal::ExtendedCalendar::ExpandedIncidenceList events =
+            NemoCalendarDb::calendar()->rawExpandedEvents(date, date, false, false, KDateTime::Spec(KDateTime::LocalZone));
+    return events.size();
+}
