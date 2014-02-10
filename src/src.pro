@@ -4,7 +4,7 @@ PLUGIN_IMPORT_PATH = org/nemomobile/calendar
 TEMPLATE = lib
 CONFIG += qt plugin hide_symbols
 
-QT += qml
+QT += qml concurrent
 QT -= gui
 
 target.path = $$[QT_INSTALL_QML]/$$PLUGIN_IMPORT_PATH
@@ -23,21 +23,22 @@ SOURCES += \
     calendarevent.cpp \
     calendareventoccurence.cpp \
     calendaragendamodel.cpp \
-    calendardb.cpp \
-    calendareventcache.cpp \
     calendarapi.cpp \
     calendareventquery.cpp \
     calendarnotebookmodel.cpp \
+    calendarmanager.cpp \
+    calendarworker.cpp
 
 HEADERS += \
     calendarevent.h \
     calendareventoccurence.h \
     calendaragendamodel.h \
-    calendardb.h \
-    calendareventcache.h \
     calendarapi.h \
     calendareventquery.h \
     calendarnotebookmodel.h \
+    calendarmanager.h \
+    calendarworker.h \
+    calendardata.h
 
 MOC_DIR = $$PWD/.moc
 OBJECTS_DIR = $$PWD/.obj

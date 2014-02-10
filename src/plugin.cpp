@@ -38,9 +38,9 @@
 #include "calendarapi.h"
 #include "calendareventquery.h"
 #include "calendarnotebookmodel.h"
-#include "calendardb.h"
 #include "calendarevent.h"
 #include "calendaragendamodel.h"
+#include "calendarmanager.h"
 
 class QtDate : public QObject
 {
@@ -90,7 +90,7 @@ public:
     {
         // mkcal uses internally some static KTimeZone instances. Need to explicitly
         // drop references so shutting down application has deterministic order for deletions.
-        NemoCalendarDb::dropReferences();
+        NemoCalendarManager::dropReferences();
     }
 };
 
