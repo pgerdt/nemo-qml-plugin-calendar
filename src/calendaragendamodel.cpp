@@ -39,6 +39,7 @@
 #include "calendareventcache.h"
 #include "calendaragendamodel.h"
 #include "calendarevent.h"
+#include "calendareventoccurence.h"
 #include "calendardb.h"
 
 NemoCalendarAgendaModel::NemoCalendarAgendaModel(QObject *parent)

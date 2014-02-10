@@ -21,6 +21,7 @@ CONFIG += link_pkgconfig
 SOURCES += \
     plugin.cpp \
     calendarevent.cpp \
+    calendareventoccurence.cpp \
     calendaragendamodel.cpp \
     calendardb.cpp \
     calendareventcache.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
 
 HEADERS += \
     calendarevent.h \
+    calendareventoccurence.h \
     calendaragendamodel.h \
     calendardb.h \
     calendareventcache.h \
