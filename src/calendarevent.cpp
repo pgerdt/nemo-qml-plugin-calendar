@@ -419,6 +419,8 @@ void NemoCalendarEvent::setAlarmProgram(const QString &program)
     alarm->setEnabled(true);
     alarm->setType(KCalCore::Alarm::Procedure);
     alarm->setProcedureAlarm(program, uniqueId());
+    foreach(NemoCalendarEvent *event, NemoCalendarEventCache::events(mEvent))
+        emit event->alarmProgramChanged();
 }
 
 bool NemoCalendarEvent::readonly() const
