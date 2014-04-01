@@ -278,7 +278,7 @@ QDateTime NemoCalendarEvent::recurException(int index) const
 {
     if (mEvent->recurs()) {
         KCalCore::DateTimeList list = mEvent->recurrence()->exDateTimes();
-        if (list.count() > index)
+        if (index >= 0 && list.count() > index)
             return list.at(index).toLocalZone().dateTime();
     }
     return QDateTime();
