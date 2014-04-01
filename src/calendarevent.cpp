@@ -255,14 +255,22 @@ void NemoCalendarEvent::removeException(int index)
 
 void NemoCalendarEvent::addException(const QDateTime &date)
 {
+    if (!date.isValid()) {
+        qmlInfo(this) << "Cannot add invalid date parameter";
+        return;
+    }
+
+    if (!mEvent->recurs()) {
+        qmlInfo(this) << "Cannot add exception to non-recurring event";
+        return;
+    }
+
     if (mEvent->recurs()) {
         KCalCore::DateTimeList list = mEvent->recurrence()->exDateTimes();
         list.append(KDateTime(date, KDateTime::Spec(KDateTime::LocalZone)));
         mEvent->recurrence()->setExDateTimes(list);
         foreach(NemoCalendarEvent *event, NemoCalendarEventCache::events(mEvent))
             emit event->recurExceptionsChanged();
-    } else {
-        qmlInfo(this) << "Cannot add exception to non-recurring event";
     }
 }
 
