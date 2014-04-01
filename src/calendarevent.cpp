@@ -244,7 +244,7 @@ void NemoCalendarEvent::removeException(int index)
 {
     if (mEvent->recurs()) {
         KCalCore::DateTimeList list = mEvent->recurrence()->exDateTimes();
-        if (list.count() > index) {
+        if (index >= 0 && list.count() > index) {
             list.removeAt(index);
             mEvent->recurrence()->setExDateTimes(list);
             foreach(NemoCalendarEvent *event, NemoCalendarEventCache::events(mEvent))
