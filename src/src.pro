@@ -18,24 +18,26 @@ INSTALLS += qmldir
 
 CONFIG += link_pkgconfig
 
+isEmpty(SRCDIR) SRCDIR = "."
+
 SOURCES += \
-    plugin.cpp \
-    calendarevent.cpp \
-    calendaragendamodel.cpp \
-    calendardb.cpp \
-    calendareventcache.cpp \
-    calendarapi.cpp \
-    calendareventquery.cpp \
-    calendarnotebookmodel.cpp \
+    $$SRCDIR/plugin.cpp \
+    $$SRCDIR/calendarevent.cpp \
+    $$SRCDIR/calendaragendamodel.cpp \
+    $$SRCDIR/calendardb.cpp \
+    $$SRCDIR/calendareventcache.cpp \
+    $$SRCDIR/calendarapi.cpp \
+    $$SRCDIR/calendareventquery.cpp \
+    $$SRCDIR/calendarnotebookmodel.cpp \
 
 HEADERS += \
-    calendarevent.h \
-    calendaragendamodel.h \
-    calendardb.h \
-    calendareventcache.h \
-    calendarapi.h \
-    calendareventquery.h \
-    calendarnotebookmodel.h \
+    $$SRCDIR/calendarevent.h \
+    $$SRCDIR/calendaragendamodel.h \
+    $$SRCDIR/calendardb.h \
+    $$SRCDIR/calendareventcache.h \
+    $$SRCDIR/calendarapi.h \
+    $$SRCDIR/calendareventquery.h \
+    $$SRCDIR/calendarnotebookmodel.h \
 
 MOC_DIR = $$PWD/.moc
 OBJECTS_DIR = $$PWD/.obj
